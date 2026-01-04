@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Лучший VR-центр 2026 года</h1>
+        <p>Полное погружение в виртуальную реальность</p>
+        <a href="#booking" class="btn">Забронировать</a>
+    </div>
+</section>
+
+<section id="about" class="section">
+    <h2>Почему именно мы</h2>
+    <div class="features">
+        <div class="card">🎮 Топовые VR-игры</div>
+        <div class="card">🕶 Новейшее оборудование</div>
+        <div class="card">👥 Игра до 6 человек</div>
+        <div class="card">🔥 Квесты и турниры</div>
+    </div>
+</section>
+
+<section id="games" class="section dark">
+    <h2>Наши VR-развлечения</h2>
+    <div class="games">
+        <div class="game">Шутеры</div>
+        <div class="game">Гонки</div>
+        <div class="game">Квесты</div>
+        <div class="game">Симуляторы</div>
+    </div>
+</section>
+
+<section id="prices" class="section">
+    <h2>Цены</h2>
+    <div class="prices">
+        <div class="price-card">
+            <h3>30 минут</h3>
+            <p>3000 ₸</p>
+        </div>
+        <div class="price-card popular">
+            <h3>60 минут</h3>
+            <p>5000 ₸</p>
+        </div>
+        <div class="price-card">
+            <h3>Группа</h3>
+            <p>от 15000 ₸</p>
+        </div>
+    </div>
+</section>
+
+<section id="booking" class="section">
+    <h2>Записаться на сеанс</h2>
+    <form action="{{ url_for('book') }}" method="POST" class="booking-form">
+        <input type="text" name="name" placeholder="Ваше имя" required>
+        <input type="tel" name="phone" placeholder="Телефон" required>
+        <input type="date" name="date" required>
+        <input type="time" name="time" required>
+        <select name="duration" required>
+            <option value="30">30 минут — 3000 ₸</option>
+            <option value="60">60 минут — 5000 ₸</option>
+            <option value="group">Группа — от 15000 ₸</option>
+        </select>
+        <button type="submit" class="btn">Записаться</button>
+    </form>
+</section>
+
+<section id="contact" class="section dark">
+    <h2>Контакты</h2>
+    <p>г. Кокшетау</p>
+    <p>📞 +7 (777) 777-77-77</p>
+</section>
+
+{% endblock %}

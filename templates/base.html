@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VR ZONE{% endblock %} — Развлекательный центр</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">VR ZONE</div>
+    <nav>
+        <a href="#about">О нас</a>
+        <a href="#games">Игры</a>
+        <a href="#prices">Цены</a>
+        <a href="#booking">Бронирование</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+</header>
+
+<!-- Flash-сообщения — будут видны на всех страницах -->
+<div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Здесь будет контент конкретной страницы (главная, цены и т.д.) -->
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    © 2026 VR ZONE. Все права защищены
+</footer>
+
+</body>
+</html>

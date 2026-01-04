@@ -1,0 +1,28 @@
+# Виртуальное окружение
+venv/
+env/
+.venv/
+ENV/
+
+# Файлы Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# База данных и секреты
+bookings.db
+bookings.json
+.env
+
+# Локальные настройки IDE
+.idea/
+.vscode/
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Логи и временные файлы
+*.log
+.coverage

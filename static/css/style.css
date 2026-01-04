@@ -1,0 +1,212 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: #0b0b14;
+    color: #fff;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    position: fixed;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #00f0ff;
+}
+
+nav a {
+    margin-left: 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #00f0ff;
+}
+
+.hero {
+    height: 100vh;
+    background: linear-gradient(to right, #000000cc, #00000088),
+                url("images/hero.jpg") center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 52px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 15px 40px;
+    background: #00f0ff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.section {
+    padding: 100px 60px;
+    text-align: center;
+}
+
+.section h2 {
+    font-size: 36px;
+    margin-bottom: 50px;
+}
+
+.dark {
+    background: #111;
+}
+
+.features, .games, .prices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+}
+
+.card, .game, .price-card {
+    padding: 40px;
+    background: #1a1a2e;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.card:hover, .game:hover, .price-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px #00f0ff55;
+}
+
+.price-card.popular {
+    border: 2px solid #00f0ff;
+}
+
+footer {
+    padding: 30px;
+    text-align: center;
+    background: #000;
+    color: #aaa;
+}
+.hero {
+    background-image: url('/static/css/images/1.jpeg');  
+    background-size: cover;
+    background-position: center;
+    
+}
+
+.flash-messages {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.flash-messages div {
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.flash-messages .success {
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid green;
+}
+
+.flash-messages .error {
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid red;
+}
+
+/* Секция бронирования */
+#booking {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(to bottom, #0a0a1f, #000000); /* Глубокий тёмный градиент */
+}
+
+#booking h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #00ffff; /* Яркий cyan */
+    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+    margin-bottom: 50px;
+}
+
+/* Контейнер формы */
+.booking-form {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Инпуты и селект */
+.booking-form input,
+.booking-form select {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #00ffff;
+    border-radius: 50px;
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.booking-form input:focus,
+.booking-form select:focus {
+    box-shadow: 0 0 25px #00ffff, 0 0 50px rgba(0, 255, 255, 0.8);
+    border-color: #00ffff;
+    transform: scale(1.05);
+}
+
+/* Плейсхолдер */
+.booking-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Кнопка */
+.booking-form button {
+    padding: 15px 50px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00ffff, #0088ff);
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    transition: all 0.4s ease;
+}
+
+.booking-form button:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 0 40px #00ffff, 0 0 60px rgba(0, 255, 255, 0.9);
+    background: linear-gradient(45deg, #00ffff, #00ffaa);
+}
