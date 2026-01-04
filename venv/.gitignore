@@ -1,7 +1,7 @@
 # Виртуальное окружение
 venv/
-env/
-.venv/
+.env/
+venv/
 ENV/
 
 # Файлы Python
