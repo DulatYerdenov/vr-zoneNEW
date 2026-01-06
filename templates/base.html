@@ -3,43 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}VR ZONE{% endblock %} — Развлекательный центр</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>{% block title %}VR ZONE{% endblock %}</title>
+
+    <!-- SEO -->
+    <meta name="description" content="VR ZONE — виртуальная реальность и VR-игры">
+    <meta name="theme-color" content="#00f0ff">
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block head %}{% endblock %}
 </head>
 <body>
 
 <header class="header">
-    <div class="logo">VR ZONE</div>
-    <nav>
-        <a href="#about">О нас</a>
-        <a href="#games">Игры</a>
-        <a href="#prices">Цены</a>
-        <a href="#booking">Бронирование</a>
-        <a href="#contact">Контакты</a>
-    </nav>
+    <div class="container header-inner">
+        <div class="logo">VR ZONE</div>
+
+        <nav id="nav">
+            <a href="{{ url_for('index') }}#about">О нас</a>
+            <a href="{{ url_for('index') }}#games">Игры</a>
+            <a href="{{ url_for('prices') }}">Цены</a>
+            <a href="{{ url_for('index') }}#booking">Бронирование</a>
+            <a href="{{ url_for('index') }}#contact">Контакты</a>
+        </nav>
+
+        <button class="burger" onclick="toggleMenu()">☰</button>
+    </div>
 </header>
 
-<!-- Flash-сообщения — будут видны на всех страницах -->
-<div class="flash-messages">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+<!-- Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-wrapper">
+    {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
 </div>
+{% endif %}
+{% endwith %}
 
-<!-- Здесь будет контент конкретной страницы (главная, цены и т.д.) -->
-<main>
-    {% block content %}
-    {% endblock %}
+<main class="main">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
 </main>
 
-<footer>
-    © 2026 VR ZONE. Все права защищены
+<footer class="footer">
+    <div class="container">
+        © 2026 VR ZONE
+    </div>
 </footer>
 
+<script>
+function toggleMenu() {
+    document.getElementById('nav').classList.toggle('open');
+}
+
+setTimeout(() => {
+    document.querySelectorAll('.flash').forEach(el => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 400);
+    });
+}, 4000);
+</script>
+
+{% block scripts %}{% endblock %}
 </body>
 </html>

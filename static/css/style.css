@@ -66,6 +66,13 @@ nav a:hover {
     text-decoration: none;
     border-radius: 30px;
     font-weight: 600;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.btn:hover {
+    background: #00ffaa;
+    transform: scale(1.05);
 }
 
 .section {
@@ -76,6 +83,8 @@ nav a:hover {
 .section h2 {
     font-size: 36px;
     margin-bottom: 50px;
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .dark {
@@ -93,15 +102,24 @@ nav a:hover {
     background: #1a1a2e;
     border-radius: 20px;
     transition: 0.3s;
+    border: 1px solid rgba(0, 240, 255, 0.2);
 }
 
 .card:hover, .game:hover, .price-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 0 20px #00f0ff55;
+    border-color: #00f0ff;
 }
 
 .price-card.popular {
     border: 2px solid #00f0ff;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(0, 136, 255, 0.1));
+}
+
+.price-card h1 {
+    color: #00f0ff;
+    font-size: 2.5rem;
+    margin: 15px 0;
 }
 
 footer {
@@ -110,11 +128,11 @@ footer {
     background: #000;
     color: #aaa;
 }
+
 .hero {
-    background-image: url('/static/css/images/1.jpeg');  
+    background-image: url('/static/css/images/1.jpeg');
     background-size: cover;
     background-position: center;
-    
 }
 
 .flash-messages {
@@ -139,33 +157,29 @@ footer {
     border: 1px solid red;
 }
 
-/* Секция бронирования */
+/* ========== СЕКЦИЯ БРОНИРОВАНИЯ ========== */
+
 #booking {
-    padding: 80px 20px;
+    padding: 100px 60px;
     text-align: center;
-    background: linear-gradient(to bottom, #0a0a1f, #000000); /* Глубокий тёмный градиент */
+    background: #111;
 }
 
 #booking h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
-    color: #00ffff; /* Яркий cyan */
-    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+    font-size: 36px;
     margin-bottom: 50px;
+    color: #00f0ff;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
 }
 
-/* Контейнер формы */
 .booking-form {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
-/* Инпуты и селект */
 .booking-form input,
 .booking-form select {
     padding: 15px 20px;
@@ -179,20 +193,26 @@ footer {
     outline: none;
 }
 
+.booking-form input:hover,
+.booking-form select:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+    transform: translateY(-5px);
+}
+
 .booking-form input:focus,
 .booking-form select:focus {
-    box-shadow: 0 0 25px #00ffff, 0 0 50px rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 30px #00ffff, 0 0 60px rgba(0, 255, 255, 0.8);
     border-color: #00ffff;
     transform: scale(1.05);
 }
 
-/* Плейсхолдер */
 .booking-form input::placeholder {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Кнопка */
 .booking-form button {
+    grid-column: 1 / -1;
+    justify-self: center;
     padding: 15px 50px;
     font-size: 1.3rem;
     font-weight: bold;
@@ -206,7 +226,50 @@ footer {
 }
 
 .booking-form button:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 0 40px #00ffff, 0 0 60px rgba(0, 255, 255, 0.9);
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 0 50px #00ffff, 0 0 80px rgba(0, 255, 255, 1);
     background: linear-gradient(45deg, #00ffff, #00ffaa);
+}
+
+/* Игровые иконки */
+.game-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.price-card:hover .game-icon {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* Контейнер */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .section {
+        padding: 60px 20px;
+    }
+    
+    .booking-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-form button {
+        grid-column: 1;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    nav a {
+        margin-left: 10px;
+        font-size: 0.9rem;
+    }
 }

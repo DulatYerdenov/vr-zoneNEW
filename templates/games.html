@@ -1,12 +1,72 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Игры{% endblock %}
+{% block title %}Игры — VR ZONE{% endblock %}
 
 {% block content %}
-<h1>Наши игры</h1>
-<ul>
-    <li>Шутеры</li>
-    <li>Гонки</li>
-    <li>Квесты</li>
-</ul>
+
+<section class="section dark" style="padding-top: 140px;">
+    <h2>🎮 Библиотека игр</h2>
+    <p style="text-align: center; color: #aaa; font-size: 1.1rem; margin-bottom: 50px;">Более 50 игр различных жанров для любого возраста и уровня подготовки</p>
+    
+    <div class="prices">
+        <div class="price-card">
+            <div class="game-icon">🔫</div>
+            <h3>Шутеры</h3>
+            <p>Half-Life: Alyx, Superhot, Pavlov VR</p>
+            <p style="font-size: 0.9rem; color: #00f0ff; margin-top: 10px;">Испытай свою меткость и стратегическое мышление</p>
+        </div>
+        <div class="price-card popular">
+            <div class="game-icon">⚔️</div>
+            <h3>Экшн и Ритм</h3>
+            <p>Beat Saber, Pistol Whip, Synth Riders</p>
+            <p style="font-size: 0.9rem; color: #00f0ff; margin-top: 10px;">Двигайся в ритме музыки и почувствуй адреналин</p>
+        </div>
+        <div class="price-card">
+            <div class="game-icon">👻</div>
+            <h3>Хорроры</h3>
+            <p>Phasmophobia, Resident Evil 4 VR</p>
+            <p style="font-size: 0.9rem; color: #00f0ff; margin-top: 10px;">Проверь свои нервы на прочность</p>
+        </div>
+    </div>
+
+    <div class="prices" style="margin-top: 30px;">
+        <div class="price-card">
+            <div class="game-icon">🏎️</div>
+            <h3>Гонки</h3>
+            <p>Assetto Corsa, Project CARS, F1 2024</p>
+            <p style="font-size: 0.9rem; color: #00f0ff; margin-top: 10px;">Почувствуй скорость и реальный драйв</p>
+        </div>
+        <div class="price-card">
+            <div class="game-icon">🧘</div>
+            <h3>Релакс и Приключения</h3>
+            <p>The Blu, Google Earth VR, Tetris Effect</p>
+            <p style="font-size: 0.9rem; color: #00f0ff; margin-top: 10px;">Путешествуй и исследуй без спешки</p>
+        </div>
+        <div class="price-card">
+            <div class="game-icon">👨‍👩‍👧</div>
+            <h3>Для всей семьи</h3>
+            <p>Job Simulator, Moss, Portal VR</p>
+            <p style="font-size: 0.9rem; color: #00f0ff; margin-top: 10px;">Веселые приключения для всех возрастов</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2>✨ Почему выбирают нас</h2>
+    <div class="features">
+        <div class="card">
+            <h3>🎮 Постоянное обновление</h3>
+            <p>Добавляем новые игры и DLC каждый месяц</p>
+        </div>
+        <div class="card">
+            <h3>👨‍💼 Опытные инструкторы</h3>
+            <p>Помогут настроить оборудование и начать</p>
+        </div>
+        <div class="card">
+            <h3>⚡ Максимальная производительность</h3>
+            <p>RTX 5080 для безупречной графики</p>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
