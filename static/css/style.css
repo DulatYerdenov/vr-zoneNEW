@@ -20,23 +20,57 @@ body {
     background: rgba(0,0,0,0.7);
     backdrop-filter: blur(10px);
     z-index: 100;
+    box-sizing: border-box;
+}
+
+.container, .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 40px;
 }
 
 .logo {
     font-size: 24px;
     font-weight: 800;
     color: #00f0ff;
+    flex-shrink: 0;
+}
+
+nav {
+    display: flex !important;
+    gap: 25px;
+    align-items: center;
+    flex: 1;
+    flex-wrap: nowrap;
 }
 
 nav a {
-    margin-left: 20px;
     color: #fff;
     text-decoration: none;
     transition: 0.3s;
+    white-space: nowrap;
+    display: inline-block;
+    font-size: 14px;
 }
 
 nav a:hover {
     color: #00f0ff;
+}
+
+.burger {
+    display: none;
+    background: none;
+    border: none;
+    color: #00f0ff;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.burger:hover {
+    transform: scale(1.1);
 }
 
 .hero {
@@ -266,11 +300,32 @@ footer {
     
     .header {
         padding: 20px;
+        flex-direction: column;
+    }
+    
+    .header-inner {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    nav {
+        display: none !important;
+        gap: 15px;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    nav.active,
+    nav.open {
+        display: flex !important;
     }
     
     nav a {
-        margin-left: 10px;
         font-size: 0.9rem;
+    }
+    
+    .burger {
+        display: block;
     }
 }
 
@@ -311,3 +366,28 @@ footer {
 .modal-content h3 { color: #00f0ff; margin-bottom: 10px; font-size: 22px; }
 .modal-content p { color: #ddd; margin-bottom: 20px; font-size: 16px; }
 .modal-content .btn { padding: 10px 30px; border-radius: 8px; }
+
+/* Equipment page specific styles */
+.equipment-section .card {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(0, 136, 255, 0.05));
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+.equipment-section .card:hover {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(0, 136, 255, 0.15));
+    border-color: #00f0ff;
+    box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.2), 0 0 30px #00f0ff77;
+}
+
+.equipment-section .card h3 {
+    color: #00ffaa;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
+}
+
+.equipment-section .card p {
+    color: #ddd;
+    line-height: 1.6;
+}

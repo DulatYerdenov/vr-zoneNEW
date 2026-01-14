@@ -237,6 +237,11 @@ def about() -> str:
     """Страница о нас"""
     return render_template("about.html")
 
+@app.route("/equipment")
+def equipment() -> str:
+    """Страница с оборудованием"""
+    return render_template("equipment.html")
+
 # =========================
 # Error Handlers
 # =========================
@@ -263,5 +268,5 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=False
+        debug=True
     )
