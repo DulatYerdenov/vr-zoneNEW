@@ -1,15 +1,13 @@
 import os
-import asyncio
-import threading
 import logging
 import re
+import requests
 from datetime import datetime
 from typing import Optional, Tuple
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-from aiogram import Bot
 
 # Логирование
 logging.basicConfig(level=logging.INFO)
@@ -46,8 +44,26 @@ db = SQLAlchemy(app)
 # =========================
 # Database
 # =========================
+class Client(db.Model):
+    """Модель клиента"""
+    __tablename__ = "client"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(100), nullable=True)
+    first_booking_date = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Связь с бронированиями
+    bookings = db.relationship("Booking", backref="client", lazy=True)
+    
+    def __repr__(self):
+        return f"<Client {self.name}>"
+
+
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey("client.id"), nullable=True)  # nullable для старых данных
     name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(50), nullable=False)
     date = db.Column(db.String(20), nullable=False)
@@ -57,63 +73,58 @@ class Booking(db.Model):
 
 with app.app_context():
     db.create_all()
-
-# =========================
-# Telegram ASYNC CORE
-# =========================
-bot: Optional[Bot] = None
-telegram_queue: Optional[asyncio.Queue] = None
-telegram_loop: Optional[asyncio.AbstractEventLoop] = None
-
-
-async def telegram_worker() -> None:
-    """Фоновый воркер для отправки сообщений в Telegram"""
-    while True:
+    
+    # Миграция: добавить client_id колонку если её нет
+    import sqlite3
+    db_path = os.path.join(app.instance_path, "bookings.db")
+    
+    # Проверяем, есть ли файл БД
+    if os.path.exists(db_path):
         try:
-            text = await telegram_queue.get()
-            await bot.send_message(
-                chat_id=CHAT_ID,
-                text=text,
-                parse_mode="HTML"
-            )
-            logger.info("✅ Сообщение отправлено в Telegram")
+            conn = sqlite3.connect(db_path)
+            cur = conn.cursor()
+            
+            # Проверяем, есть ли колонка client_id в таблице booking
+            cur.execute("PRAGMA table_info(booking)")
+            columns = [col[1] for col in cur.fetchall()]
+            
+            if "client_id" not in columns:
+                logger.info("⚠️ Миграция: добавляем client_id в таблицу booking...")
+                cur.execute("""
+                    ALTER TABLE booking 
+                    ADD COLUMN client_id INTEGER DEFAULT NULL
+                """)
+                conn.commit()
+                logger.info("✅ Миграция завершена: client_id добавлен")
+            
+            conn.close()
         except Exception as e:
-            logger.error(f"❌ Ошибка Telegram: {e}")
-        finally:
-            telegram_queue.task_done()
+            logger.error(f"❌ Ошибка миграции БД: {e}")
 
-
-def start_telegram_loop() -> None:
-    """Запуск цикла событий в отдельном потоке"""
-    global telegram_loop, telegram_queue, bot
+# =========================
+# Telegram Notifications (Simple HTTP)
+# =========================
+def send_telegram_message(text: str) -> None:
+    """Отправка уведомления администратору через Telegram (синхронно)"""
+    if not BOT_TOKEN or not CHAT_ID:
+        logger.warning("⚠️ BOT_TOKEN или CHAT_ID не установлены")
+        return
     
-    telegram_loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(telegram_loop)
-    
-    telegram_queue = asyncio.Queue()
-    bot = Bot(token=BOT_TOKEN)
-    
-    telegram_loop.create_task(telegram_worker())
-    logger.info("🚀 Telegram цикл запущен")
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    data = {
+        "chat_id": CHAT_ID,
+        "text": text,
+        "parse_mode": "HTML"
+    }
     
     try:
-        telegram_loop.run_forever()
-    except KeyboardInterrupt:
-        logger.info("⛔ Telegram цикл остановлен")
-
-
-def send_telegram_message(text: str) -> None:
-    """Безопасная отправка сообщения в асинхронную очередь"""
-    if telegram_loop is None or telegram_queue is None:
-        logger.warning("⚠️ Telegram не инициализирован")
-        return
-
-    telegram_loop.call_soon_threadsafe(telegram_queue.put_nowait, text)
-
-
-# Запуск потока (защита от двойного запуска Flask Debugger)
-if not os.environ.get("WERKZEUG_RUN_MAIN") or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-    threading.Thread(target=start_telegram_loop, daemon=True).start()
+        response = requests.post(url, data=data, timeout=5)
+        if response.status_code == 200:
+            logger.info("✅ Уведомление отправлено в Telegram")
+        else:
+            logger.error(f"❌ Telegram ошибка: {response.status_code} - {response.text}")
+    except Exception as e:
+        logger.error(f"❌ Ошибка отправки Telegram: {e}")
 
 # =========================
 # Validation Functions
@@ -163,8 +174,22 @@ def book() -> str:
         return redirect(url_for("index") + "#booking")
 
     try:
-        # Сохранение в БД
+        # Найти или создать клиента
+        client = Client.query.filter_by(phone=phone).first()
+        if not client:
+            client = Client(name=name, phone=phone)
+            db.session.add(client)
+            db.session.flush()  # Чтобы получить ID
+            logger.info(f"✅ Новый клиент: {name} ({phone})")
+        else:
+            # Обновить имя если оно изменилось
+            if client.name != name:
+                client.name = name
+            logger.info(f"✅ Клиент найден: {name} ({phone})")
+        
+        # Сохранение бронирования
         booking = Booking(
+            client_id=client.id,
             name=name,
             phone=phone,
             date=date,

@@ -47,6 +47,16 @@
 {% endif %}
 {% endwith %}
 
+<!-- Success Modal (shows after successful actions like booking) -->
+<div id="success-modal" class="modal" aria-hidden="true" style="display:none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+        <h3>Успешно</h3>
+        <p id="modal-message">Данные успешно сохранены.</p>
+        <button class="btn" onclick="closeModal()">OK</button>
+    </div>
+</div>
+
 <main class="main">
     <div class="container">
         {% block content %}{% endblock %}
@@ -64,12 +74,66 @@ function toggleMenu() {
     document.getElementById('nav').classList.toggle('open');
 }
 
-setTimeout(() => {
-    document.querySelectorAll('.flash').forEach(el => {
-        el.style.opacity = '0';
-        setTimeout(() => el.remove(), 400);
-    });
-}, 4000);
+function showModalWithMessage(msg) {
+    console.log('[DEBUG] showModalWithMessage() called with:', msg);
+    const modal = document.getElementById('success-modal');
+    const msgEl = document.getElementById('modal-message');
+    
+    if (!modal) {
+        console.error('[ERROR] Modal element not found');
+        return;
+    }
+    if (!msgEl) {
+        console.error('[ERROR] Modal message element not found');
+        return;
+    }
+    
+    console.log('[DEBUG] Setting modal message:', msg);
+    msgEl.textContent = msg;
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    console.log('[DEBUG] Modal displayed');
+}
+
+function closeModal() {
+    const modal = document.getElementById('success-modal');
+    if (!modal) return;
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+}
+
+// Показываем всплывающие сообщения и модальное окно при success
+document.addEventListener('DOMContentLoaded', () => {
+    const flashes = document.querySelectorAll('.flash');
+    console.log('[DEBUG] Found', flashes.length, 'flash messages');
+    
+    if (flashes.length > 0) {
+        flashes.forEach(el => {
+            console.log('[DEBUG] Flash element:', el.className, '- text:', el.textContent.trim());
+            
+            // если это success — показываем модал
+            if (el.classList.contains('success')) {
+                const msg = el.textContent.trim();
+                console.log('[DEBUG] Success flash detected:', msg);
+                setTimeout(() => {
+                    console.log('[DEBUG] Calling showModalWithMessage()');
+                    showModalWithMessage(msg);
+                }, 300);
+            }
+            
+            // анимированно скрываем все флеши
+            setTimeout(() => {
+                el.style.transition = 'opacity 0.4s ease';
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    if (el.parentNode) el.remove();
+                }, 400);
+            }, 3000);
+        });
+    } else {
+        console.log('[DEBUG] No flash messages found on page load');
+    }
+});
 </script>
 
 {% block scripts %}{% endblock %}
