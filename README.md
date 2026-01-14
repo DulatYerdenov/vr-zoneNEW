@@ -31,8 +31,8 @@ pip install -r requirements.txt
 ### 2. Конфигурация .env
 Создайте файл `.env` в корневой папке:
 ```env
-BOT_TOKEN=123456789:ABCdefGHIjklmnoPQRstuvwxyz1234567890
-CHAT_ID=814779912
+BOT_TOKEN=ваш токен
+CHAT_ID=ваш id telegrama
 SECRET_KEY=ваш-секретный-ключ
 ```
 
