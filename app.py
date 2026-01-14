@@ -260,5 +260,8 @@ def internal_error(error) -> Tuple[str, int]:
 # Run
 # =========================
 if __name__ == "__main__":
-    logger.info("🎮 Запуск VR ZONE приложения...")
-    app.run(debug=True, port=5000)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=False
+    )
