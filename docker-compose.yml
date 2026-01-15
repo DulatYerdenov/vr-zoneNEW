@@ -1,18 +1,31 @@
-version: '3.9'
-
 services:
-  vr-zone:
-    image: vr-zone:latest
-    container_name: vr-zone-app
+  web:
+    build: .
+    container_name: vr-zone-web
     restart: unless-stopped
-    ports:
-      - "5001:5000"                # Flask на порту 5000
-    env_file:
-      - .env                       # Подхватывает BOT_TOKEN, CHAT_ID, SECRET_KEY
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=production
-    volumes:
-      - ./instance:/app/instance   # Сохранение БД между перезагрузками
-    working_dir: /app
     command: python app.py
+    ports:
+      - "5001:5000"
+    env_file:
+      - .env                  # ← обязательно добавить!
+    volumes:
+      - ./instance:/app/instance
+
+  bot-client:                   # клиентский бот VR_ZONA
+    build: .
+    container_name: vr-zone-bot-client
+    restart: unless-stopped
+    command: python telegram_bot.py
+    env_file:
+      - .env
+
+  bot-admin:                    # админ-бот VR_Admin
+    build: .
+    container_name: vr-zone-bot-admin
+    restart: unless-stopped
+    command: python telegram_bot.py   # если код один и тот же
+    env_file:
+      - .env
+    environment:
+      - BOT_TOKEN=${ADMIN_BOT_TOKEN}   # переопределяем токен только для этого сервиса
+      - ADMIN_CHAT_ID=${ADMIN_CHAT_ID}

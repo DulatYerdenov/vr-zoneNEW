@@ -25,10 +25,10 @@ body {
 
 .container, .header-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
-    gap: 40px;
+    gap: 20px;
 }
 
 .logo {
@@ -40,7 +40,7 @@ body {
 
 nav {
     display: flex !important;
-    gap: 25px;
+    gap: 15px;
     align-items: center;
     flex: 1;
     flex-wrap: nowrap;
